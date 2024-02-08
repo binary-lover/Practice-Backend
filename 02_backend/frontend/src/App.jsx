@@ -5,12 +5,11 @@ import './App.css'
 import axios from 'axios'
 
 function App() {
-  const [jokes,setjokes] = useState([])
-
+  const [jokes,setJokes] = useState([])
   useEffect(()=>{
     axios.get('/api/jokes')
-    .then((response)=>{
-      setjokes(response.data)
+    .then((response)=>{ 
+      setJokes(response.data)
     })
     .catch((error)=>{
       console.log(error);
@@ -19,18 +18,17 @@ function App() {
 
   return (
     <>
-    <h1>This is binary lover</h1>
-    <p>JOKES: {jokes.length}</p>
-    
+    <h1>binary lover</h1>
+    <p>Jokes: {jokes.length}</p>
     {
       jokes.map((joke,index)=>(
-        <div key={joke.id}>
-          <p>Question: {index+1} {joke.question}</p>
-          <p>Answer: {joke.answer}</p>
-        </div>
+        <dev key = {joke.id}>
+          <h3>{joke.question}</h3>
+          <h3>{joke.answer}</h3>
+        </dev>
       ))
- 
     }
+
     </>
   )
 }

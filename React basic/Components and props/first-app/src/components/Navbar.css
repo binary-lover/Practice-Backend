@@ -1,0 +1,34 @@
+body{
+    background-color: #FFE7E7;
+}
+/* .navbar{
+    color:white;
+    height: 40px;
+} */
+nav{
+    display: flex;
+    /* background-color: #B0A8B9;   */
+    color: white;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    background-color: #944E63;
+    
+}
+li{
+    list-style-type: none;
+    padding: 5px;
+    
+    border-radius: 10%;
+    
+}
+ul{
+    display: flex;
+    gap: 30px;
+}
+
+li:hover {
+    background-color: #B47B84;
+    
+}
