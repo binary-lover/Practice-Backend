@@ -1,0 +1,15 @@
+*.env
+.env
+.env*
+/.vscode
+/node_modules
+./dist
+./build
+./coverage
+./.nyc_output
+./.cache
+./.next
+./.out
+./.nuxt
+./.temp
+./.rpt2_cache
