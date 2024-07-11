@@ -1,8 +1,15 @@
 import mongoose from "mongoose";
 import connectDB from "./db/index.js";
+import { DB_NAME } from "./constants.js";
 import dotenv from "dotenv";
+import express from "express";
 
-dotenv.config();
+dotenv.config({path: "../.env"}); // to access the environment variables
+
+// defining the express app variable
+const app = express();
+
+
 
 connectDB()
 .then(() => {
@@ -19,7 +26,7 @@ connectDB()
 // connecting to the database using iffie function
 // (async()=>{
 //     try {
-//         await mongoose.connect(`{process.env.MONGODB_URI}/`,DB_NAME )
+//         await mongoose.connect(`${process.env.MONGODB_URI}/${ DB_NAME}` )
 //         app.on("error", (error) =>{
 //             console.log("Error:", error);
 //             throw error;
