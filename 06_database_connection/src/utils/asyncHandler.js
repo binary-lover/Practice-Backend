@@ -1,14 +1,11 @@
-import {asyncHandler} from '../utils/asyncHandler.js'
-
 const asyncHandler = (requestHandler) => {
     return (req, res, next) => {
-        Promise.resolve(requestHandler(req, res, next)).catch((error) =>
-            next(error)
-        );
-    };
-};
+        Promise.resolve(requestHandler(req, res, next)).catch((err) => next(err))
+    }
+}
 
-export { asyncHandler };
+
+export { asyncHandler }
 
 // uisng try catch block to handle the error and send the response
 // const asyncHandler = (fn) => async (req,res,next) => {
