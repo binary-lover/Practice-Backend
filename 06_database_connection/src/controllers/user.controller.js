@@ -17,7 +17,9 @@ const registerUser = asyncHandler( async (req, res) =>{
 
     // get user data from frontend
     const { fullName, email, username, password,  } = req.body;
-    console.log(password);
+
+    console.log(req.body);
+
 
     // validate user data
     if(fullName === "" || email === "" || username === "" || password === ""){
@@ -25,7 +27,7 @@ const registerUser = asyncHandler( async (req, res) =>{
     }
 
     // check if user exists: email, username
-    const userExist = User.findOne({
+    const userExist = await User.findOne({
         $or: [{email}, {username}]
     })
     //
@@ -35,21 +37,25 @@ const registerUser = asyncHandler( async (req, res) =>{
 
     // check for image, awatar
     const avatarLocalPath = req.files?.avatar[0].path;
-    const coverImageLocalPath = req.files?.coverImage[0].path;
+    // const coverImageLocalPath = req.files?.coverImage[0].path;
+    let coverImageLocalPath = null;
+    if(req.files && req.files?.coverImage && req.files?.coverImage.length > 0){
+        coverImageLocalPath = req.files?.coverImage[0].path
+    }
     
     if(!avatarLocalPath){
         throw new ApiError(400, "Please upload images")
     }
-
     // upload them to cloudinary , awtar
     const avatar = await uploadOnCloudinary(avatarLocalPath);
     const coverImage = await uploadOnCloudinary(coverImageLocalPath);
-
+    
     if(!avatar ){
         throw new ApiError(500, "Error uploading images")
     }
-
+    
     // create user opject - create entry in db
+    console.log(fullName, email, username, password, avatar.url, coverImage.url);
     const user = await User.create({
         fullName,
         avatar: avatar.url,
