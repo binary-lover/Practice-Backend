@@ -213,7 +213,7 @@ const refreshAccessTocken = asyncHandler(async (req, res) => {
     }
     // verify token
     try {
-        const decodedToken = jwt.verify(
+        const decodedToken = jwt.verify( //we need to decode because we need to get the user id
             incomingRefreshToken,
             process.env.ACCESS_TOKEN_SECRET
         );
@@ -264,7 +264,13 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
-    return res.status(200).json(200, req.user, "user got sucsesfully");
+    return res
+    .status(200).
+    json(new ApiResponse(
+        200, 
+        req.user, 
+        "user got sucsesfully"
+    ));
 });
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
@@ -273,7 +279,7 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
         throw new ApiError(400, "all fields are required");
     }
 
-    const user = User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
             $set: {
@@ -310,6 +316,13 @@ const updateUserAvatar = asyncHandler(async(req, res)=>{
         },
         {new:true}
     ).select("-password")
+
+    // delete file from local storage
+    try{
+        fs.unlinkSync(avatarLocalPath)
+    }catch(error){
+        throw new ApiError(500, "Error while deleting file from local storage")
+    }
 
     return res
     .status(200)
@@ -351,11 +364,12 @@ const updateUserCoverImage = asyncHandler(async(req, res)=>{
 
 export {
     registerUser,
-    loginUser,
+    loginUser,  
     logOutUser,
     refreshAccessTocken,
     changeCurrentPassword,
     getCurrentUser,
     updateAccountDetails,
-    updateUserAvatar
+    updateUserAvatar,
+    updateUserCoverImage
 };
