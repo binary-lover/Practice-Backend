@@ -122,6 +122,7 @@ const loginUser = asyncHandler(async (req, res) => {
     // eighter username or email is required
     if (!username && !email) {
         // return res.status(400).json({ message: "Please provide email or username" });
+
         throw new ApiError(400, "Please provide email or username");
     }
 
